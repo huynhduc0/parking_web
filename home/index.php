@@ -38,7 +38,7 @@
 								<li><a href="#">THÀNH PHỐ HỖ TRỢ</a></li>
 								<li><a href="#">LỢI ÍCH</a></li>
 								<li><a href="#">SẢN PHẨM</a></li>
-								<li><a href="#">LIÊN HỆ</a></li>
+								<li><a href="insert.php">Cho thuê vị trí</a></li>
 							</ul>
 						</nav>
 					</div>
@@ -56,22 +56,25 @@
 		  	<div class="container-fluid">
 		  		<div class="row">
 		  			<div class="col-lg-4">	
-		  				<form class="" " >
+		  				
                                 <div class="card-body row no-gutters align-items-center">
                                     <div class="col-auto">
                                         <i class="fglyphicon glyphicon-search"></i>
                                     </div>
                                     <!--end of col-->
                                     <div class="col">
-                                        <input class="form-control form-control-lg form-control-borderless" type="search" placeholder="Tìm địa điểm">
+                                        <input class="form-control form-control-lg form-control-borderless" type="search" id="searchkey" placeholder="Tìm địa điểm">
                                     </div>
                                     <!--end of col-->
                                     <div class="col-auto">
-                                        <button class="btn btn-lg btn-outline-primary" type="submit">Search</button>
+                                        <button class="btn btn-lg btn-outline-primary" onclick="search()">Search</button>
                                     </div>
                                     <!--end of col-->
+                                  
                                 </div>
-                            </form>
+                          <div id="listSearch">
+                                    	
+                                    </div>
 		  			</div>
 					<div class="col-lg-8">
 						<div id="map" style="width: 98%; height: 640px;">

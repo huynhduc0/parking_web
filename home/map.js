@@ -34,3 +34,27 @@ function initMap(position) {
   	})
   
 }
+function search() {
+ key=$('#searchkey').val();
+   $('#listSearch').html("");
+ $.getJSON( "search.php?key="+key, function( data ) {
+  console.log(data);
+  if(data.length==0){
+    $('#listSearch').append("Không tìm thấy");
+  }
+  else{
+  data.map(function(elem) {
+    console.log(elem.place);
+      alert(elem.location);
+    var noidung="<div id='place' onclick='onpen'>";
+    noidung+="<div>"+elem.place+"</div>";
+    noidung+='<div>'+elem.price+'</div><button type="button" class="btn btn-primary" onclick="openMaps('+elem.location+')">Tìm</button></div>';
+     $('#listSearch').append(noidung);
+  })
+}
+    
+});
+}
+function openMaps(location){
+  alert(location);
+}

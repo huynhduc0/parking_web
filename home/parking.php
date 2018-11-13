@@ -41,6 +41,15 @@
 	    		$data[]=$res;
 	    	return $data;
 	    }
+	    function search($placeSeach)
+	    {
+	    	$sql="SELECT * FROM $this->tableName WHERE MATCH (place) AGAINST ('$placeSeach' IN NATURAL LANGUAGE MODE)";
+	    	$result= $this->conn->query($sql);
+	    	$data = array();
+	    	while ($res=$result->fetch_assoc())
+	    		$data[]=$res;
+	    	return $data;
+	    }
 	    public function insertPark()
 	    {
 	    	$sql="INSERT INTO $this->tableName value('','$this->place','','$this->time','$this->location','$this->price')";
