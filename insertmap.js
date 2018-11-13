@@ -3,7 +3,7 @@
     } else { 
         $('#location').html('Geolocation is not supported by this browser.');
     };
-  
+
 function initMap(position) {
 	var place = {lat: position.coords.latitude, lng: position.coords.longitude};
 	var geocoder = new google.maps.Geocoder;
@@ -42,8 +42,9 @@ function saveData(){
 	data.location = document.getElementById('location').value;
 	data.time ={};
 	data.time.start = document.getElementById('startTime').value;
-	data.time.end= document.getElementById('endTime').value;
+	data.time.end= document.getElementById('endTime').innerText;
 	data.price = document.getElementById('cost').value;
+	alert(data.price);
 	$.ajax({
 		url: 'addDb.php',
 		type: 'POST',

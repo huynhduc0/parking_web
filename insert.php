@@ -50,12 +50,8 @@
 
 	}
 	</script>
-         <tr><td>Cost per hour:</td> <td><input type='text' id='cost'/> </td> </tr>
-      <tr><td>Type:</td> <td><select id='type'> +
-                 <option value='bar' SELECTED>bar</option>
-                 <option value='restaurant'>restaurant</option>
-                 </select> </td></tr>
-                 <tr><td></td><td><input type='button' value='Save' onclick='saveData()'/></td></tr>
+         <tr><td>Giá mỗi giờ</td> <td><input type='text' id='cost'/> </td> </tr>
+          <tr><td></td><td><input type='button' value='Save' onclick='saveData()'/></td></tr>
       </table>
     </div>
 </body>

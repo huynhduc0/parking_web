@@ -46,7 +46,7 @@
 	    }
 	    public function insertPark()
 	    {
-	    	$sql="INSERT INTO $this->tableName value('','$this->place','','$this->time','$this->location','$this->price')";
+	    	$sql="INSERT INTO $this->tableName value('','$this->place','','$this->timeStart','$this->timeEnd','$this->location','$this->price')";
 	    	if($this->conn->query($sql)){
 	    		echo 'success';
 	    	}
