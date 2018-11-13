@@ -3,9 +3,10 @@
     } else { 
         $('#location').html('Geolocation is not supported by this browser.');
     }
+var map;
 function initMap(position) {
 	var place = {lat: position.coords.latitude, lng: position.coords.longitude};
-  var map = new google.maps.Map(
+  map = new google.maps.Map(
       document.getElementById('map'), {zoom: 15, center: place
       });
  	 infowindow = new google.maps.InfoWindow({
@@ -34,6 +35,11 @@ function initMap(position) {
   	})
   
 }
+
+function moveToLocation(lat, lng){
+    var center = new google.maps.LatLng(lat, lng);
+    map.panTo(center);
+}
 function search() {
  key=$('#searchkey').val();
    $('#listSearch').html("");
@@ -45,16 +51,15 @@ function search() {
   else{
   data.map(function(elem) {
     console.log(elem.place);
-      alert(elem.location);
     var noidung="<div id='place' onclick='onpen'>";
     noidung+="<div>"+elem.place+"</div>";
-    noidung+='<div>'+elem.price+'</div><button type="button" class="btn btn-primary" onclick="openMaps('+elem.location+')">Tìm</button></div>';
+    noidung+='<div>'+elem.price+'</div><button type="button" class="btn btn-primary" onclick="moveToLocation('+elem.location+')">Tìm</button></div>';
      $('#listSearch').append(noidung);
   })
 }
     
 });
 }
-function openMaps(location){
-  alert(location);
+function openMaps(lat, lng){
+
 }
