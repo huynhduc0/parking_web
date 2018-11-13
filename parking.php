@@ -7,7 +7,8 @@
 	    private $id;
 		private $place;
 		private $host;
-		private $time;
+		private $timeStart;
+		private $timeEnd;
 		private $location;
 		private $price;
 		private $conn;
@@ -19,8 +20,10 @@
 		function getPlace() { return $this->place; }
 		function setHost($host) { $this->host = $host; }
 		function getHost() { return $this->host; }
-		function setTime($time) { $this->time = $time; }
-		function getTime() { return $this->time; }
+		function setTimeStart($timeStart) { $this->timeStart = $timeStart; }
+		function getTimeStart() { return $this->timeStart; }
+		function getTimeEnd() { return $this->timeEnd; }
+		function setTimeEnd($timeEnd) { $this->timeEnd = $timeEnd; }
 		function setLocation($location) { $this->location = $location; }
 		function getLocation() { return $this->location; }
 		function setPrice($price) { $this->price = $price; }

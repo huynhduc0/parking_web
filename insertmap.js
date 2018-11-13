@@ -2,7 +2,8 @@
         navigator.geolocation.getCurrentPosition(initMap);
     } else { 
         $('#location').html('Geolocation is not supported by this browser.');
-    }
+    };
+  
 function initMap(position) {
 	var place = {lat: position.coords.latitude, lng: position.coords.longitude};
 	var geocoder = new google.maps.Geocoder;
@@ -62,4 +63,4 @@ function saveData(){
 		console.log("complete");
 	});
 	
-}
+};

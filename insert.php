@@ -11,6 +11,8 @@
   src="https://code.jquery.com/jquery-3.3.1.js"
   integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
   crossorigin="anonymous"></script>
+	<script src="http://cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.js"></script>
+<link href="http://cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.css" rel="stylesheet"/>
 	<script type="text/javascript" src="insertmap.js"></script>
 </head>
 <body>
@@ -22,8 +24,32 @@
 	<div id="form">
       <table>
       <tr><td>Name:</td> <td><input type='text' id='name'/> <input type='text' class="d-none" id='location'/> </td> </tr>
-       <tr><td>Start Time</td> <td><input type='time' max="24" id='startTime'/> </td> </tr>
-        <tr><td>EndTime:</td> <td><input type='time' max="24" id='endTime'/> </td> </tr>
+       <tr><td>Start Time</td> <td><input type='text' id='startTime'/> </td> </tr>
+        <tr><td>Tổng thời gian</td> <td><input type='number'  min="1" id='lengthTime' max="23" oninput="getEndTime()"/> </td> </tr>
+          <tr><td >EndTime: <td id="endTime"></td></td> </tr>
+           <script >
+           	{
+		var timepicker = new TimePicker('startTime', {
+  			lang: 'en',
+  			theme: 'dark'
+		});
+		timepicker.on('change', function(evt) {
+  
+  		var value = (evt.hour || '00') + ':' + (evt.minute || '00');
+  			evt.element.value = value;
+		});
+	}
+	function getEndTime() {
+		var timeEnd=$('#startTime').val();
+		var res = timeEnd.split(":");
+		var end=parseInt(res[0])+parseInt($('#lengthTime').val());
+		if(end>23){
+			end= end-24;
+		}
+		$('#endTime').html(end+":"+res[1]);
+
+	}
+	</script>
          <tr><td>Cost per hour:</td> <td><input type='text' id='cost'/> </td> </tr>
       <tr><td>Type:</td> <td><select id='type'> +
                  <option value='bar' SELECTED>bar</option>
