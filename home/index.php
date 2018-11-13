@@ -67,12 +67,15 @@
                                     </div>
                                     <!--end of col-->
                                     <div class="col-auto">
-                                        <button class="btn btn-lg btn-outline-primary" onclick="search()">Search</button>
+                                        <button class="btn btn-lg btn-outline-primary" onclick='search()'>Search</button>
                                     </div>
                                     <!--end of col-->
                                   
                                 </div>
                           <div id="listSearch">
+                                 
+                                    </div>
+                                    <div id="lastSelect" class="d-none">
                                     	
                                     </div>
 		  			</div>
