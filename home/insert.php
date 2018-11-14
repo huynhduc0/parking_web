@@ -12,11 +12,13 @@
   integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
   crossorigin="anonymous"></script>
 	<script type="text/javascript" src="insertmap.js"></script>
-  <script type="text/javascript" src="map.js"></script>
+ 
   <link rel="stylesheet" href="../css/style.css"/>
   <link rel="stylesheet" href="../css/font-awesome.min.css"/>
   <link rel="stylesheet" href="../css/owl.carousel.css"/>
   <link rel="stylesheet" href="../css/style.css"/>
+  <script src="http://cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.js"></script>
+<link href="http://cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.css" rel="stylesheet"/>
 </head>
 <body>
     <header class="header-section">
@@ -77,14 +79,34 @@
 	<div id="form">
       <table>
       <tr><td>Name:</td> <td><input type='text' id='name'/> <input type='text' class="d-none" id='location'/> </td> </tr>
-       <tr><td>Start Time</td> <td><input type='time' max="24" id='startTime'/> </td> </tr>
-        <tr><td>EndTime:</td> <td><input type='time' max="24" id='endTime'/> </td> </tr>
-         <tr><td>Cost per hour:</td> <td><input type='text' id='cost'/> </td> </tr>
-      <tr><td>Type:</td> <td><select id='type'> +
-                 <option value='bar' SELECTED>bar</option>
-                 <option value='restaurant'>restaurant</option>
-                 </select> </td></tr>
-                 <tr><td></td><td><input type='button' value='Save' onclick='saveData()'/></td></tr>
+       <tr><td>Start Time</td> <td><input type='text' id='startTime'/> </td> </tr>
+        <tr><td>Tổng thời gian</td> <td><input type='number'  min="1" id='lengthTime' max="23" oninput="getEndTime()"/> </td> </tr>
+          <tr><td >EndTime: <td id="endTime"></td></td> </tr>
+           <script >
+            {
+    var timepicker = new TimePicker('startTime', {
+        lang: 'en',
+        theme: 'dark'
+    });
+    timepicker.on('change', function(evt) {
+  
+      var value = (evt.hour || '00') + ':' + (evt.minute || '00');
+        evt.element.value = value;
+    });
+  }
+  function getEndTime() {
+    var timeEnd=$('#startTime').val();
+    var res = timeEnd.split(":");
+    var end=parseInt(res[0])+parseInt($('#lengthTime').val());
+    if(end>23){
+      end= end-24;
+    }
+    $('#endTime').html(end+":"+res[1]);
+
+  }
+  </script>
+         <tr><td>Giá mỗi giờ</td> <td><input type='text' id='cost'/> </td> </tr>
+          <tr><td></td><td><input type='button' value='Save' onclick='saveData()'/></td></tr>
       </table>
     </div>
 </body>

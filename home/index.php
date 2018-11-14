@@ -96,8 +96,7 @@
                 <input type="text" class="form-control" id="local">
               </div>
               <div class="form-group">
-                <label for="time">Thời gian</label>
-                <input type="time" class="form-control" id="time">
+                <label id="time"></label>
               </div>
               <div class="form-group">
                 <label for="fee">Giá</label>

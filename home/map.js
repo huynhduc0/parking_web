@@ -38,7 +38,7 @@ var searchData;
 function moveToLocation(id){
   var element= searchData[id];
       $('#local').val(element.place);
-      $('#time').val(element.time);
+      $('#time').html("Từ:"+element.timeStart+"<br>Đến "+element.timeEnd);
       $('#fee').val(element.price);
       var ll = element.location.split(",");
     var center = new google.maps.LatLng(ll[0], ll[1]);
