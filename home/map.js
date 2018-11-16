@@ -4,7 +4,9 @@
         $('#location').html('Geolocation is not supported by this browser.');
     }
 var map;
+var myPositionLatLng={};
 function initMap(position) {
+  myPositionLatLng={lat: position.coords.latitude, lng: position.coords.longitude};
 	var place = {lat: position.coords.latitude, lng: position.coords.longitude};
   map = new google.maps.Map(
       document.getElementById('map'), {zoom: 15, center: place
@@ -13,18 +15,17 @@ function initMap(position) {
       content: document.getElementById('form')
       });
   	var ds=document.getElementById('list').innerHTML;
-  	console.log(ds);
+  	
  	list=jQuery.parseJSON(ds);
   	list.map(function(e) {
   		var ll = e.location.split(",");
-  		console.log(e.location);
+  	
   		var marker= new google.maps.Marker({
   			position: new google.maps.LatLng(ll[0],ll[1]),
   			map:map
   		});
   		 google.maps.event.addListener(marker, 'click', function() {
             infowindow.open(map, marker);
-            console.log(document.getElementById('form'));
             $('#local').val(e.place);
             $('#time').val(e.time);
             $('#fee').val(e.price);
@@ -59,16 +60,63 @@ function search() {
   }
   else{
   data.map(function(elem,index) {
-    console.log(elem.place);
     var e=JSON.stringify(elem);
-    console.log(e);
+    var ll = elem.location.split(",");
     var noidung="<div id='place' >";
-    noidung+="<div>"+elem.place+"</div>";
-    noidung+='<div>'+elem.price+"</div><button type='button' class='btn btn-primary' onclick='moveToLocation("+index+")'>Tìm</button></div>";
+    noidung+="<div>"+elem.place+"</div>"+"Cách "+getDistanceFromLatLonInKm(myPositionLatLng.lat,myPositionLatLng.lng,ll[0],ll[1])+" KM";
+    noidung+='<div>'+elem.price+"</div><button type='button' class='btn btn-primary' onclick='moveToLocation("+index+")'>Tìm</button>";
      $('#listSearch').append(noidung);
 
   })
 }
     
 });
+}
+function caculateDistance(vt){
+ $.getJSON( "https://api.opencagedata.com/geocode/v1/json?q="+vt+"&key=0ce69a90ea30455eaf7a836aef584c2d&pretty=1", function( data ) { 
+  console.log(data.results[0].confidence)
+        $('#listSearch').append("Loại"+data.results[0].confidence+"</div>");
+    
+  });
+}
+function getPlace(lat,lng) {
+  $.getJSON( "https://api.opencagedata.com/geocode/v1/json?q="+lat+","+lng+"&key=00f711f73483427c8577e646aa2bf4bf&jsonp",
+   function( data ) {
+    console.log(data);
+      if(data.results[0].formatted){
+        caculateDistance(data.results[0].formatted);
+      }
+      else{
+        return;
+      }
+  });
+}
+function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
+  var R = 6371; // Radius of the earth in km
+  var dLat = deg2rad(lat2-lat1);  // deg2rad below
+  var dLon = deg2rad(lon2-lon1); 
+  var a = 
+    Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+    Math.sin(dLon/2) * Math.sin(dLon/2)
+    ; 
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+  var d = R * c; // Distance in km
+  return Math.round(d,5);
+}
+
+function deg2rad(deg) {
+ return deg * (Math.PI/180)
+}
+function login() {
+  // body...
+  $.ajax({
+    url: '../User/login.php',
+    type: 'POST',
+    data: {username: $('#username').val(), password:$('#password').val()},
+    success:function(result) {
+      // body...
+      console.log(result);
+    }
+  })
 }

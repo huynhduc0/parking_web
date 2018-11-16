@@ -31,7 +31,7 @@
 					</div>
 					</div>
 					<div class="col-lg-9 col-md-9">
-						<a href="" class="site-btn header-btn">ĐĂNG NHẬP</a>
+						<a data-toggle="modal" data-target="#modal-1" class="site-btn header-btn">ĐĂNG NHẬP</a>
 						<nav class="main-menu">
 							<ul>
 								<li><a href="index.html">TRANG CHỦ</a></li>
@@ -45,6 +45,56 @@
 				</div>
 			</div>	
 	</header>
+			<div class="modal fade" id="modal-1" >
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+								<span class="sr-only">Close</span>
+							</button>
+							<h4 class="modal-title">Đăng nhập cái nhẹ nà</h4>
+						</div>
+						<div class="modal-body">
+							
+														
+							<section class="login-block">
+							    <div class="container">
+								<div class="row">
+									<div class="col-md-12 login-sec">
+									    <h2 class="text-center">Login Now</h2>
+									    <div class="login-form">
+							  <div class="form-group">
+							    <label for="exampleInputEmail1" class="text-uppercase">Username</label>
+							    <input id="username" type="text" class="form-control" placeholder="">
+							    
+							  </div>
+							  <div class="form-group">
+							    <label for="exampleInputPassword1" class="text-uppercase">Password</label>
+							    <input id="password" type="password" class="form-control" placeholder="">
+							  </div>
+							  
+							  
+							    <div class="form-check">
+							    <label class="form-check-label">
+							      <input type="checkbox" class="form-check-input">
+							      <small>Remember Me</small>
+							    </label>
+							    <button type="submit" class="btn btn-login float-right" onclick="login()">Submit</button>
+							  </div>
+							  </div>
+							</div>
+						</div>
+					</div>
+				</section>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-primary">Save changes</button>
+						</div>
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
 		<?php 
 			require 'parking.php';
 			$list= new Parking;

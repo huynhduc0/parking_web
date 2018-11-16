@@ -33,7 +33,7 @@
           </div>
           </div>
           <div class="col-lg-9 col-md-9">
-            <a href="" class="site-btn header-btn">ĐĂNG NHẬP</a>
+            <a href="" id="USERNAME" class="site-btn header-btn">ĐĂNG NHẬP</a>
             <nav class="main-menu">
               <ul>
                 <li><a href="index.html">TRANG CHỦ</a></li>
@@ -62,7 +62,7 @@
                                     </div>
                                     <!--end of col-->
                                     <div class="col-auto">
-                                        <button class="btn btn-lg btn-outline-primary" type="submit">Search</button>
+                                        <button class="btn btn-lg btn-outline-primary" type="" >Search</button>
                                     </div>
                                     <!--end of col-->
                                 </div>
