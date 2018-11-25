@@ -37,18 +37,19 @@ public function createToken()
 {
 require("jwt.php");
  // thuc te: Nho escapte tranh Injection
-$qr = " SELECT * FROM user
-        WHERE Username=$this->UserName
-        AND   Password="+md5($this->Password)+"
-      ";
-      echo $qr;
-$user = $this->conn->query($qr);
-  if ($user->num_rows == 1) {
-  //login dung
-  $u = mysql_fetch_array($users);
-  $jsonwebtoken = JWT::encode($u, "DUNG_CHO_AI_BIET_NHA");
-  return JsonHelper::getJson("token", $jsonwebtoken);
-}
+$sql = 'SELECT * FROM user
+        WHERE Username="'.$this->UserName.'"
+        AND   Password="'.md5($this->Password).'"';
+      $result = $this->conn->query($sql);
+      // echo $sql;
+        if ($result->num_rows > 0) { 
+  			$data=array();
+  			 while($row = $result->fetch_assoc()) {
+                       $data[]=$row;
+                   }
+  			$jsonwebtoken = JWT::encode($data, "DUNG_CHO_AI_BIET_NHA");
+  			return JsonHelper::getJson("token", $jsonwebtoken);
+		}
 else{
   // login sai
   return '{"token":"ERROR"}';

@@ -29,12 +29,37 @@ function initMap(position) {
             $('#local').val(e.place);
             $('#time').val(e.time);
             $('#fee').val(e.price);
-      		//$('#form').html('Vị trí: '+ e.place+'<br>'+'Giá thuê: '+e.price+'/giờ'+'<br>Từ: '+ e.time+'<br><button type="button" class="btn btn-primary">Thuê, sợ đéo gì?</button>');
-      		
+            var myPlaceName,DirectionLocationName;
+             getLocationName(ll[0],ll[1], function(value){
+                DirectionLocationName=value;
+             });
+            getLocationName(position.coords.latitude,position.coords.longitude, function(value){
+                myPlaceName=value;
+             });
+            $('#direction').click(function(event) {
+              var newURL="https://www.google.com/maps/dir/"+myPlaceName+"/"+DirectionLocationName;
+               // console.log(newURL);
+             window.open(newURL);  
+              // openNewDirectionWindows(newURL); 
+            });
+      		//$('#form').html('Vị trí: '+ e.place+'<br>'+'Giá thuê: '+e.price+'/giờ'+'<br>Từ: '+ e.time+'<br><button type="button" class="btn btn-primary">Thuê, sợ đéo gì?</button>');     		
           });
   	})
   
 }
+function openNewDirectionWindows(url) {
+  console.log(url);
+  var tab=window.open(url,'_blank');
+  tab.focus();
+}
+function getLocationName(lat,lng, callback) {
+  $.getJSON( "https://api.opencagedata.com/geocode/v1/json?q="+lat+","+lng+"&key=00f711f73483427c8577e646aa2bf4bf&jsonp?callback",
+   function(data) {
+   callback(data.results[0].formatted);
+  });
+  // return data[0].results[0].formatted;
+}
+
 var searchData;
 function moveToLocation(id){
   var element= searchData[id];
@@ -66,7 +91,6 @@ function search() {
     noidung+="<div>"+elem.place+"</div>"+"Cách "+getDistanceFromLatLonInKm(myPositionLatLng.lat,myPositionLatLng.lng,ll[0],ll[1])+" KM";
     noidung+='<div>'+elem.price+"</div><button type='button' class='btn btn-primary' onclick='moveToLocation("+index+")'>Tìm</button>";
      $('#listSearch').append(noidung);
-
   })
 }
     
@@ -82,7 +106,6 @@ function caculateDistance(vt){
 function getPlace(lat,lng) {
   $.getJSON( "https://api.opencagedata.com/geocode/v1/json?q="+lat+","+lng+"&key=00f711f73483427c8577e646aa2bf4bf&jsonp",
    function( data ) {
-    console.log(data);
       if(data.results[0].formatted){
         caculateDistance(data.results[0].formatted);
       }
@@ -110,13 +133,21 @@ function deg2rad(deg) {
 }
 function login() {
   // body...
-  $.ajax({
-    url: '../User/login.php',
-    type: 'POST',
-    data: {username: $('#username').val(), password:$('#password').val()},
-    success:function(result) {
-      // body...
-      console.log(result);
-    }
-  })
+  var token;
+  $.getJSON( "../User/login.php?username="+$('#username').val()+"&password="+$('#password').val(),
+   function(data) {
+      decodeToken(data);
+})
+}
+function decodeToken(data){
+   if(data.token!='ERROR'){
+    $.getJSON( "../User/decryptToken.php?token="+data.token,
+      function (returndata) {
+        console.log(returndata);
+         $('#DN').html(returndata[0].FullName);
+      });
+  }
+  else{
+    alert('Sai rồi má');
+  }
 }

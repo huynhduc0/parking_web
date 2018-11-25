@@ -17,6 +17,28 @@
 	<link rel="stylesheet" href="../css/font-awesome.min.css"/>
 	<link rel="stylesheet" href="../css/owl.carousel.css"/>
 	<link rel="stylesheet" href="../css/style.css"/>
+	<script >
+	jQuery(document).ready(function($) {
+		var token;
+		<?php 
+		session_start();
+		if(isset($_SESSION['token']))
+			echo'token='.$_SESSION['token'];
+		 ?>	
+		 console.log(token.token);
+		 	if(token.token!='ERROR'){
+			    $.getJSON( "../User/decryptToken.php?token="+token.token,
+			      function (returndata) {
+			        console.log(returndata);
+			         $('#DN').html(returndata[0].FullName);
+			      });
+			  }
+			  else{
+			    alert('Đăng nhập đi con giời');
+			  }
+		
+	});
+</script>
 </head>
 <body>
 		<header class="header-section">
@@ -31,7 +53,7 @@
 					</div>
 					</div>
 					<div class="col-lg-9 col-md-9">
-						<a data-toggle="modal" data-target="#modal-1" class="site-btn header-btn">ĐĂNG NHẬP</a>
+						<a id="DN" data-toggle="modal" data-target="#modal-1" class="site-btn header-btn">ĐĂNG NHẬP</a>
 						<nav class="main-menu">
 							<ul>
 								<li><a href="index.html">TRANG CHỦ</a></li>
@@ -152,10 +174,12 @@
                 <label for="fee">Giá</label>
                 <input type="text" class="form-control" id="fee">
               </div>
+               <button type="button" id="direction" class="btn btn-default">Chỉ đường</button>
               <button type="submit" class="btn btn-default">Thuê</button>
             </form>    
         </div>
 	</div>
+	
 	
 </body>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBdqZALzdBcHhHyQm64AQ3GtlvkuOctElo&callback=initMap"></script>

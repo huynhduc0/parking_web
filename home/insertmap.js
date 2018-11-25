@@ -72,15 +72,3 @@ function saveData(){
 	});
 	
 };
-function login() {
-	// body...
-	$.ajax({
-		url: '../User/login.php',
-		type: 'POST',
-		data: {username: $('#username').val(), password:$('#password').val()},
-		success:function(result) {
-			// body...
-			console.log(result);
-		}
-	})
-}
