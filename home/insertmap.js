@@ -51,13 +51,14 @@ function saveData(){
 	data.time.start = document.getElementById('startTime').value;
 	data.time.end= document.getElementById('endTime').innerText;
 	data.price = document.getElementById('cost').value;
-	alert(data.price);
+	data.host= $('#host').val();
 	$.ajax({
 		url: 'addDb.php',
 		type: 'POST',
 		data: data,
 		success:function(result) {
 			// body...
+			swal("Thành công", "Địa điểm sẽ được kiểm duyệt, cảm ơn bạn", "success");
 			console.log(result);
 		}
 	})
@@ -72,3 +73,17 @@ function saveData(){
 	});
 	
 };
+jQuery(document).ready(function($) {
+		token=$('#token').val();
+		console.log(token);
+   if(token!='ERROR'){
+    $.getJSON( "../User/decryptToken.php?token="+token,
+      function (returndata) {
+        console.log(returndata);
+         $('#DN').html(returndata[0].FullName);
+      });
+  }
+  else{
+    alert('Sai rồi má');
+  }
+});

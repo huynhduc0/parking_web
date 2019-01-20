@@ -6,6 +6,7 @@
 	$park->setTimeEnd($_REQUEST['time']['end']);
 	$park->setLocation($_REQUEST['location']);
 	$park->setPrice($_REQUEST['price']);
+	$park->setHost($_REQUEST['host']);
 	echo $park->insertPark();
 
  ?>

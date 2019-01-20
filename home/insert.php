@@ -12,7 +12,7 @@
   integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
   crossorigin="anonymous"></script>
 	<script type="text/javascript" src="insertmap.js"></script>
- 
+ <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <link rel="stylesheet" href="../css/style.css"/>
   <link rel="stylesheet" href="../css/font-awesome.min.css"/>
   <link rel="stylesheet" href="../css/owl.carousel.css"/>
@@ -33,7 +33,8 @@
           </div>
           </div>
           <div class="col-lg-9 col-md-9">
-            <a href="" id="USERNAME" class="site-btn header-btn">ĐĂNG NHẬP</a>
+            <input type="text" class="d-none" name="token" id="token" value="<?php echo $_GET['token'] ?>">
+            <a href="" id="DN" class="site-btn header-btn">ĐĂNG NHẬP</a>
             <nav class="main-menu">
               <ul>
                 <li><a href="index.html">TRANG CHỦ</a></li>
@@ -82,6 +83,7 @@
        <tr><td>Start Time</td> <td><input type='text' id='startTime'/> </td> </tr>
         <tr><td>Tổng thời gian</td> <td><input type='number'  min="1" id='lengthTime' max="23" oninput="getEndTime()"/> </td> </tr>
           <tr><td >EndTime: <td id="endTime"></td></td> </tr>
+          <input type="text" id="host" class="d-none" name="id">
            <script >
             {
     var timepicker = new TimePicker('startTime', {

@@ -17,28 +17,51 @@
 	<link rel="stylesheet" href="../css/font-awesome.min.css"/>
 	<link rel="stylesheet" href="../css/owl.carousel.css"/>
 	<link rel="stylesheet" href="../css/style.css"/>
-	<script >
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	 <script src="http://cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.js"></script>
+<link href="http://cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.css" rel="stylesheet"/>
+<script >
 	jQuery(document).ready(function($) {
-		var token;
+		var token={token:"ERROR"};
 		<?php 
 		session_start();
 		if(isset($_SESSION['token']))
 			echo'token='.$_SESSION['token'];
 		 ?>	
-		 console.log(token.token);
+		 $('#token').val(token.token);
 		 	if(token.token!='ERROR'){
 			    $.getJSON( "../User/decryptToken.php?token="+token.token,
 			      function (returndata) {
 			        console.log(returndata);
 			         $('#DN').html(returndata[0].FullName);
+			           $('#sub').prop('disabled', false);
+			           $('#booking').removeClass('d-none');
+			           $.getJSON('../user/load_booking.php?token='+token.token, function(returndata) {
+			           		/*optional stuff to do after success */
+			           			$('#list_book').html('');
+			           		returndata.map(function(elem) {
+			           			$('#list_book').append('<a class="dropdown-item" style="color: red" onclick="findPlaceViaPlaceID('+elem.placeID+')" href="#">'+elem.place+ " <br>  <p>từ " + elem.TimeIn+' đến '+elem.TimeOut+'<br><img style="width:120px" class="img-responsive" src="https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=http://192.168.1.98/parking_web/user/thanhtoan.php/?id='+elem.id+'" title="Đưa QR để xác nhận" />'+'</p></a>');
+
+			           		})
+			           });
 			      });
 			  }
 			  else{
-			    alert('Đăng nhập đi con giời');
-			  }
-		
+			    swal("Bạn chưa đăng nhập", "Hãy đăng nhập để sử dụng dịch vụ", "success");
+			    $('#sub').prop('disabled', true);
+			  } 
+		$('#thue').click(function(event) {
+	/* Act on the event */
+	if(token.token=='ERROR'){
+		$('#modal_login').modal("show");
+		// window.location.href("insert.php?token="+token);
+	}
+	else{
+		window.location.href="insert.php?token="+token.token;
+	}
+});
 	});
-</script>
+	</script>
 </head>
 <body>
 		<header class="header-section">
@@ -53,21 +76,32 @@
 					</div>
 					</div>
 					<div class="col-lg-9 col-md-9">
-						<a id="DN" data-toggle="modal" data-target="#modal-1" class="site-btn header-btn">ĐĂNG NHẬP</a>
+						<a id="DN" data-toggle="modal" data-target="#modal_login" class="site-btn header-btn">ĐĂNG NHẬP</a>
 						<nav class="main-menu">
 							<ul>
 								<li><a href="index.html">TRANG CHỦ</a></li>
 								<li><a href="#">THÀNH PHỐ HỖ TRỢ</a></li>
 								<li><a href="#">LỢI ÍCH</a></li>
 								<li><a href="#">SẢN PHẨM</a></li>
-								<li><a href="insert.php">Cho thuê vị trí</a></li>
+								
+								<li id="thue"><a>Cho thuê vị trí</a></li>
+								<li id="booking" class="d-none">
+									<div class="btn-group">
+									  <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									    Booking list
+									  </button>
+									  <div class="dropdown-menu" id="list_book">
+									    <a class="dropdown-item" style="color: red" href="#">Không có gì</a>
+									  </div>
+									</div>
+								</li>
 							</ul>
 						</nav>
 					</div>
 				</div>
 			</div>	
 	</header>
-			<div class="modal fade" id="modal-1" >
+			<div class="modal fade" id="modal_login" >
 				<div class="modal-dialog" role="document">
 					<div class="modal-content">
 						<div class="modal-header">
@@ -164,18 +198,70 @@
 		<div id="form">
             <form role="form" action="order.php" method="POST">
               <div class="form-group">
-                <label for="local">Vị trí</label>
-                <input type="text" class="form-control" id="local">
+                <label id="local" for="local">Vị trí</label>
+               <!-- <input type="text" class="form-control" id="local"> -->
+              </div>
+               <div class="form-group">
+                <label id="fee" for="fee">Giá</label><br>
+                <label id="time" for="time"></label>
+              </div>
+               <div class="form-group">
+                <label for="fee">Thời gian bắt đầu thuê</label>
+                <input type="text" name="start" class="form-control" id="startTime">
+              </div>
+               <div class="form-group">
+                <label for="fee">Số giờ thuê</label>
+                <input type='number' name="lengthTime" min="1" id='lengthTime' max="23" oninput="AllFee()" class="form-control">
               </div>
               <div class="form-group">
-                <label id="time"></label>
+                <label id="allPrice">Tổng giá:</label>
               </div>
+
+               <script >
+				     {
+				    var timepicker = new TimePicker('startTime', {
+				        lang: 'en',
+				        theme: 'dark'
+				    });
+				    timepicker.on('change', function(evt) {
+				  
+				      var value = (evt.hour || '00') + ':' + (evt.minute || '00');
+				        evt.element.value = value;
+				         acceptTime=$('#time').text();
+				 
+				 	 finalTime=acceptTime.split("-");
+				  startTimeinput=$('#startTime').val()+":00";
+				  // console.log(finalendtime[1]+"huhu"+startTimeinput[0])
+				  	if(finalTime[0]>finalTime[1]) finalTime[1]+="23:00:00";
+				  	  console.log(startTimeinput>finalTime[1] ); 
+				  if(startTimeinput<finalTime[0] || startTimeinput>finalTime[1]){
+				  		console.log(finalTime[0]+' to '+finalTime[1]+ 'input:'+startTimeinput);
+				  		$('#allPrice').html("Lỗi, Thời gian bắt đầu thuê không hợp lệ")
+				  }
+				  else{
+				  	$('#allPrice').html("Tổng giá");
+				  }
+				    });
+
+				  }
+				  function AllFee() {
+				  	var fee=$('#fee').text().split(":");
+				  	var finalfee=fee[1].split(" ");
+				  	var finalfianlfee=parseInt($('#lengthTime').val())*parseInt(finalfee[1]);
+				 	$('#allPrice').html("Tổng giá: "+ finalfianlfee);
+				 	$('#price').val(finalfianlfee);
+				  }
+				  </script>
               <div class="form-group">
-                <label for="fee">Giá</label>
-                <input type="text" class="form-control" id="fee">
+                <label for="fee">Biển số xe</label>
+                <input type="text" name="bsx" class="form-control" id="BSX">
               </div>
+             <!--  <input type="text" class="d-none" name="start" id="start">
+              <input type="text" class="d-none"  name="price" id="price">
+              <input type="text" class="d-none"  name="token" id="token"> -->
+              <input type="text" class="d-none"  name="idplace" id="idplace">
                <button type="button" id="direction" class="btn btn-default">Chỉ đường</button>
-              <button type="submit" class="btn btn-default">Thuê</button>
+              <button type="submit" id="sub" class="btn btn-default">Thuê</button>
             </form>    
         </div>
 	</div>

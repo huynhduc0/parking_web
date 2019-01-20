@@ -54,6 +54,34 @@ else{
   // login sai
   return '{"token":"ERROR"}';
 }
+
+}
+function successOrder($id)
+{
+  $sql="UPDATE `order` set status=0 where id=".$id;
+  if ($this->conn->query($sql) === TRUE) {
+    echo "Thanh toán thành công";
+} else {
+    echo "Có lỗi: " . $conn->error;
+}
+}
+function getBooking($token)
+{
+  require("jwt.php");
+$json = JWT::decode($token, "DUNG_CHO_AI_BIET_NHA", true);
+$sql= "SELECT order.id, order.TimeIn, order.TimeOut, order.MarineNumber,order.placeID, listpark.place, listpark.location FROM `User` JOIN `order` on order.UserID= user.UserID
+                            JOIN `listpark` on listpark.id=order.placeID
+ where status=1 and Order.UserID=".$json[0]->UserID;
+// echo $sql;
+$result = $this->conn->query($sql);
+        if ($result->num_rows > 0) { 
+        $data=array();
+         while($row = $result->fetch_assoc()) {
+                       $data[]=$row;
+                   }
+// $json[0]->UserID);
+}
+  echo json_encode($data,true);
 }
 }
  ?>
